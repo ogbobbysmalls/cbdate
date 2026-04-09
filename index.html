@@ -179,8 +179,21 @@
     </div>
 
     <div id="ideasBox" class="collapsible">
+
+      <!-- TABS -->
+      <div class="tab-bar">
+        <button class="tab-btn active" data-tab="ideas" onclick="switchTab('ideas')">💖 Ideeën</button>
+        <button class="tab-btn" data-tab="done" onclick="switchTab('done')">✅ Gedaan <span class="count-badge" id="doneCount" style="background:linear-gradient(135deg,#60c080,#3a9a5a)">0</span></button>
+      </div>
+
+      <!-- IDEAS TAB CONTENT -->
+      <div id="tab-ideas">
       <div class="filter-bar">
         <input id="searchInput" placeholder="🔍 Zoeken..." class="search-input"/>
+        <label class="toggle-pill hide-done-pill">
+          <input type="checkbox" id="hideDoneCheck"/>
+          <span>🙈 Verberg gedaan</span>
+        </label>
 
         <div class="filter-row">
           <!-- Multi-select categorie -->
@@ -245,6 +258,16 @@
       </div>
 
       <ul id="dateList"></ul>
+      </div><!-- end tab-ideas -->
+
+      <!-- DONE TAB CONTENT -->
+      <div id="tab-done" class="hidden">
+        <div class="done-header">
+          <p class="done-subtitle">🎉 Jullie hebben dit al gedaan!</p>
+        </div>
+        <ul id="doneList"></ul>
+      </div>
+
     </div>
   </div>
 
