@@ -36,20 +36,57 @@
     </div>
 
     <div class="random-filters">
-      <select id="randomFilterCategory" class="filter-select">
-        <option value="">📂 Alle categorieën</option>
-        <option value="Buiten">🌿 Buiten</option>
-        <option value="Thuis">🏠 Thuis</option>
-        <option value="Eten">🍽️ Eten</option>
-        <option value="Avontuur">⚡ Avontuur</option>
-      </select>
-      <select id="randomFilterBudget" class="filter-select">
-        <option value="">💸 Alle budgetten</option>
-        <option value="Gratis">🆓 Gratis</option>
-        <option value="Goedkoop">💚 Goedkoop</option>
-        <option value="Gemiddeld">💛 Gemiddeld</option>
-        <option value="Duur">❤️ Duur</option>
-      </select>
+      <div class="multi-select-wrap" id="randomFilterCategoryWrap">
+        <button class="multi-select-btn" onclick="toggleDropdown('randomFilterCategoryDrop')">
+          <span id="randomFilterCategoryLabel">📂 Alle categorieën</span>
+          <span class="drop-arrow">▾</span>
+        </button>
+        <div class="multi-select-drop hidden" id="randomFilterCategoryDrop">
+          <label class="drop-option"><input type="checkbox" value="Buiten" class="rand-cat"/> 🌿 Buiten</label>
+          <label class="drop-option"><input type="checkbox" value="Thuis" class="rand-cat"/> 🏠 Thuis</label>
+          <label class="drop-option"><input type="checkbox" value="Eten" class="rand-cat"/> 🍽️ Eten</label>
+          <label class="drop-option"><input type="checkbox" value="Avontuur" class="rand-cat"/> ⚡ Avontuur</label>
+        </div>
+      </div>
+
+      <div class="multi-select-wrap" id="randomFilterBudgetWrap">
+        <button class="multi-select-btn" onclick="toggleDropdown('randomFilterBudgetDrop')">
+          <span id="randomFilterBudgetLabel">💸 Alle budgetten</span>
+          <span class="drop-arrow">▾</span>
+        </button>
+        <div class="multi-select-drop hidden" id="randomFilterBudgetDrop">
+          <label class="drop-option"><input type="checkbox" value="Gratis" class="rand-budget"/> 🆓 Gratis</label>
+          <label class="drop-option"><input type="checkbox" value="Goedkoop" class="rand-budget"/> 💚 Goedkoop</label>
+          <label class="drop-option"><input type="checkbox" value="Gemiddeld" class="rand-budget"/> 💛 Gemiddeld</label>
+          <label class="drop-option"><input type="checkbox" value="Duur" class="rand-budget"/> ❤️ Duur</label>
+        </div>
+      </div>
+
+      <div class="multi-select-wrap" id="randomFilterLocWrap">
+        <button class="multi-select-btn" onclick="toggleDropdown('randomFilterLocDrop')">
+          <span id="randomFilterLocLabel">📍 Alle locaties</span>
+          <span class="drop-arrow">▾</span>
+        </button>
+        <div class="multi-select-drop hidden" id="randomFilterLocDrop">
+          <label class="drop-option"><input type="checkbox" value="Nijmegen" class="rand-loc"/> 🏙️ Nijmegen</label>
+          <label class="drop-option"><input type="checkbox" value="Amsterdam" class="rand-loc"/> 🏙️ Amsterdam</label>
+          <label class="drop-option"><input type="checkbox" value="Rotterdam" class="rand-loc"/> 🏙️ Rotterdam</label>
+          <label class="drop-option"><input type="checkbox" value="Overig" class="rand-loc"/> 🗺️ Overig</label>
+        </div>
+      </div>
+
+      <div class="multi-select-wrap" id="randomFilterDurWrap">
+        <button class="multi-select-btn" onclick="toggleDropdown('randomFilterDurDrop')">
+          <span id="randomFilterDurLabel">⏱️ Alle tijdsduren</span>
+          <span class="drop-arrow">▾</span>
+        </button>
+        <div class="multi-select-drop hidden" id="randomFilterDurDrop">
+          <label class="drop-option"><input type="checkbox" value="Minder dan 2 uur" class="rand-dur"/> ⚡ Minder dan 2 uur</label>
+          <label class="drop-option"><input type="checkbox" value="Dagdeel" class="rand-dur"/> 🌤️ Dagdeel</label>
+          <label class="drop-option"><input type="checkbox" value="Hele dag" class="rand-dur"/> ☀️ Hele dag</label>
+          <label class="drop-option"><input type="checkbox" value="Meerdere dagen" class="rand-dur"/> 🌙 Meerdere dagen</label>
+        </div>
+      </div>
     </div>
 
     <button class="primaryBtn shake-btn" id="generateBtn">
@@ -63,6 +100,8 @@
         <div class="result-meta">
           <span id="randomCategory" class="badge badge-cat"></span>
           <span id="randomBudget" class="badge badge-budget"></span>
+          <span id="randomLocation" class="badge badge-loc"></span>
+          <span id="randomDuration" class="badge badge-dur"></span>
         </div>
       </div>
     </div>
@@ -101,6 +140,24 @@
           </select>
         </div>
 
+        <div class="row-inputs">
+          <select id="location">
+            <option value="">📍 Locatie</option>
+            <option value="Nijmegen">🏙️ Nijmegen</option>
+            <option value="Amsterdam">🏙️ Amsterdam</option>
+            <option value="Rotterdam">🏙️ Rotterdam</option>
+            <option value="Overig">🗺️ Overig</option>
+          </select>
+
+          <select id="duration">
+            <option value="">⏱️ Tijdsduur</option>
+            <option value="Minder dan 2 uur">⚡ Minder dan 2 uur</option>
+            <option value="Dagdeel">🌤️ Dagdeel</option>
+            <option value="Hele dag">☀️ Hele dag</option>
+            <option value="Meerdere dagen">🌙 Meerdere dagen</option>
+          </select>
+        </div>
+
         <div class="form-actions">
           <button class="secondaryBtn" id="cancelBtn">Annuleer</button>
           <button class="primaryBtn" id="addBtn">
@@ -124,20 +181,67 @@
     <div id="ideasBox" class="collapsible">
       <div class="filter-bar">
         <input id="searchInput" placeholder="🔍 Zoeken..." class="search-input"/>
-        <select id="filterCategory" class="filter-select">
-          <option value="">Alle categorieën</option>
-          <option value="Buiten">🌿 Buiten</option>
-          <option value="Thuis">🏠 Thuis</option>
-          <option value="Eten">🍽️ Eten</option>
-          <option value="Avontuur">⚡ Avontuur</option>
-        </select>
-        <select id="filterBudget" class="filter-select">
-          <option value="">Alle budgetten</option>
-          <option value="Gratis">🆓 Gratis</option>
-          <option value="Goedkoop">💚 Goedkoop</option>
-          <option value="Gemiddeld">💛 Gemiddeld</option>
-          <option value="Duur">❤️ Duur</option>
-        </select>
+
+        <div class="filter-row">
+          <!-- Multi-select categorie -->
+          <div class="multi-select-wrap">
+            <button class="multi-select-btn" onclick="toggleDropdown('filterCatDrop')">
+              <span id="filterCatLabel">📂 Categorieën</span>
+              <span class="drop-arrow">▾</span>
+            </button>
+            <div class="multi-select-drop hidden" id="filterCatDrop">
+              <label class="drop-option"><input type="checkbox" value="Buiten" class="filt-cat"/> 🌿 Buiten</label>
+              <label class="drop-option"><input type="checkbox" value="Thuis" class="filt-cat"/> 🏠 Thuis</label>
+              <label class="drop-option"><input type="checkbox" value="Eten" class="filt-cat"/> 🍽️ Eten</label>
+              <label class="drop-option"><input type="checkbox" value="Avontuur" class="filt-cat"/> ⚡ Avontuur</label>
+            </div>
+          </div>
+
+          <!-- Multi-select budget -->
+          <div class="multi-select-wrap">
+            <button class="multi-select-btn" onclick="toggleDropdown('filterBudgetDrop')">
+              <span id="filterBudgetLabel">💸 Budget</span>
+              <span class="drop-arrow">▾</span>
+            </button>
+            <div class="multi-select-drop hidden" id="filterBudgetDrop">
+              <label class="drop-option"><input type="checkbox" value="Gratis" class="filt-budget"/> 🆓 Gratis</label>
+              <label class="drop-option"><input type="checkbox" value="Goedkoop" class="filt-budget"/> 💚 Goedkoop</label>
+              <label class="drop-option"><input type="checkbox" value="Gemiddeld" class="filt-budget"/> 💛 Gemiddeld</label>
+              <label class="drop-option"><input type="checkbox" value="Duur" class="filt-budget"/> ❤️ Duur</label>
+            </div>
+          </div>
+
+          <!-- Multi-select locatie -->
+          <div class="multi-select-wrap">
+            <button class="multi-select-btn" onclick="toggleDropdown('filterLocDrop')">
+              <span id="filterLocLabel">📍 Locatie</span>
+              <span class="drop-arrow">▾</span>
+            </button>
+            <div class="multi-select-drop hidden" id="filterLocDrop">
+              <label class="drop-option"><input type="checkbox" value="Nijmegen" class="filt-loc"/> 🏙️ Nijmegen</label>
+              <label class="drop-option"><input type="checkbox" value="Amsterdam" class="filt-loc"/> 🏙️ Amsterdam</label>
+              <label class="drop-option"><input type="checkbox" value="Rotterdam" class="filt-loc"/> 🏙️ Rotterdam</label>
+              <label class="drop-option"><input type="checkbox" value="Overig" class="filt-loc"/> 🗺️ Overig</label>
+            </div>
+          </div>
+
+          <!-- Multi-select tijdsduur -->
+          <div class="multi-select-wrap">
+            <button class="multi-select-btn" onclick="toggleDropdown('filterDurDrop')">
+              <span id="filterDurLabel">⏱️ Tijdsduur</span>
+              <span class="drop-arrow">▾</span>
+            </button>
+            <div class="multi-select-drop hidden" id="filterDurDrop">
+              <label class="drop-option"><input type="checkbox" value="Minder dan 2 uur" class="filt-dur"/> ⚡ Minder dan 2 uur</label>
+              <label class="drop-option"><input type="checkbox" value="Dagdeel" class="filt-dur"/> 🌤️ Dagdeel</label>
+              <label class="drop-option"><input type="checkbox" value="Hele dag" class="filt-dur"/> ☀️ Hele dag</label>
+              <label class="drop-option"><input type="checkbox" value="Meerdere dagen" class="filt-dur"/> 🌙 Meerdere dagen</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active filter chips -->
+        <div id="activeFilters" class="active-filters hidden"></div>
       </div>
 
       <ul id="dateList"></ul>
