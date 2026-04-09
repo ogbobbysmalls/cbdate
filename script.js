@@ -1,14 +1,10 @@
-// =====================
-// SUPABASE SETUP
-// =====================
+// ===================== SUPABASE =====================
 const SUPABASE_URL = "https://aavzsvurygojkoxxvssd.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_At0pbd5rRAbdWUF6gL0Kgw_O0QPSx0-";
 
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// =====================
-// ELEMENTS
-// =====================
+// ===================== ELEMENTS =====================
 const titleInput = document.getElementById("title");
 const descInput = document.getElementById("description");
 const categoryInput = document.getElementById("category");
@@ -25,33 +21,50 @@ const randomDescription = document.getElementById("randomDescription");
 const filterCategory = document.getElementById("filterCategory");
 const filterBudget = document.getElementById("filterBudget");
 
-// toggle
+// ===================== TOGGLES =====================
+const toggleAdd = document.getElementById("toggleAdd");
+const addContent = document.getElementById("addContent");
+const arrowAdd = document.getElementById("arrowAdd");
+
 const toggleIdeas = document.getElementById("toggleIdeas");
 const ideasContent = document.getElementById("ideasContent");
-const arrow = document.getElementById("arrow");
+const arrowIdeas = document.getElementById("arrowIdeas");
 
-let open = false;
+// ===================== STATE =====================
+let addOpen = false;
+let ideasOpen = false;
 
-// =====================
-// TOGGLE IDEAS (FIXED)
-// =====================
-toggleIdeas.addEventListener("click", () => {
-  open = !open;
+// ===================== TOGGLE ADD =====================
+toggleAdd.addEventListener("click", () => {
+  addOpen = !addOpen;
 
-  if (open) {
-    ideasContent.classList.remove("collapsed");
-    ideasContent.classList.add("expanded");
-    arrow.innerText = "▲";
+  if (addOpen) {
+    addContent.classList.remove("collapsed");
+    addContent.classList.add("expanded");
+    arrowAdd.innerText = "▲";
   } else {
-    ideasContent.classList.add("collapsed");
-    ideasContent.classList.remove("expanded");
-    arrow.innerText = "▼";
+    addContent.classList.add("collapsed");
+    addContent.classList.remove("expanded");
+    arrowAdd.innerText = "▼";
   }
 });
 
-// =====================
-// FETCH IDEAS
-// =====================
+// ===================== TOGGLE IDEAS =====================
+toggleIdeas.addEventListener("click", () => {
+  ideasOpen = !ideasOpen;
+
+  if (ideasOpen) {
+    ideasContent.classList.remove("collapsed");
+    ideasContent.classList.add("expanded");
+    arrowIdeas.innerText = "▲";
+  } else {
+    ideasContent.classList.add("collapsed");
+    ideasContent.classList.remove("expanded");
+    arrowIdeas.innerText = "▼";
+  }
+});
+
+// ===================== FETCH =====================
 async function fetchIdeas() {
   const { data } = await supabaseClient
     .from("date_ideas")
@@ -61,9 +74,7 @@ async function fetchIdeas() {
   return data || [];
 }
 
-// =====================
-// RENDER LIST
-// =====================
+// ===================== RENDER =====================
 async function renderList() {
   const ideas = await fetchIdeas();
 
@@ -93,12 +104,10 @@ async function renderList() {
   });
 }
 
-// =====================
-// ADD IDEA
-// =====================
+// ===================== ADD IDEA + CONFIRMATION =====================
 addBtn.addEventListener("click", async () => {
   if (!titleInput.value || !descInput.value) {
-    alert("Vul alles in!");
+    alert("Vul titel en beschrijving in!");
     return;
   }
 
@@ -117,17 +126,19 @@ addBtn.addEventListener("click", async () => {
     return;
   }
 
+  // reset
   titleInput.value = "";
   descInput.value = "";
   categoryInput.value = "";
   budgetInput.value = "";
 
+  // 🔥 CONFIRMATIE POPUP
+  alert("💖 Date idee toegevoegd!");
+
   renderList();
 });
 
-// =====================
-// RANDOM DATE
-// =====================
+// ===================== RANDOM =====================
 generateBtn.addEventListener("click", async () => {
   const ideas = await fetchIdeas();
 
@@ -152,13 +163,9 @@ generateBtn.addEventListener("click", async () => {
   randomCard.classList.remove("hidden");
 });
 
-// =====================
-// FILTERS
-// =====================
+// ===================== FILTERS =====================
 filterCategory.addEventListener("change", renderList);
 filterBudget.addEventListener("change", renderList);
 
-// =====================
-// START
-// =====================
+// ===================== START =====================
 renderList();
