@@ -47,12 +47,39 @@ function showToast(msg) {
   toastTimeout = setTimeout(() => toast.classList.remove("show"), 2200);
 }
 
-// ===== DROPDOWN TOGGLE =====
+// ===== DROPDOWN TOGGLE (viewport-aware) =====
 function toggleDropdown(id) {
   const drop = document.getElementById(id);
   const allDrops = document.querySelectorAll(".multi-select-drop");
   allDrops.forEach(d => { if (d.id !== id) d.classList.add("hidden"); });
+
+  const isHidden = drop.classList.contains("hidden");
   drop.classList.toggle("hidden");
+
+  if (isHidden) {
+    // Reset positioning before measuring
+    drop.style.left  = "0";
+    drop.style.right = "auto";
+    drop.style.minWidth = "";
+
+    // Let browser paint, then reposition if needed
+    requestAnimationFrame(() => {
+      const rect      = drop.getBoundingClientRect();
+      const vpWidth   = window.innerWidth;
+      const margin    = 8;
+
+      if (rect.right > vpWidth - margin) {
+        // Overflows right edge → align to right side of button
+        drop.style.left  = "auto";
+        drop.style.right = "0";
+      }
+      if (rect.left < margin) {
+        // Overflows left edge → pin to left
+        drop.style.left  = "0";
+        drop.style.right = "auto";
+      }
+    });
+  }
 }
 
 // Close dropdowns when clicking outside
@@ -332,24 +359,33 @@ function buildIdeaItem(idea, isDoneTab) {
     showToast(newVal ? "Favoriet toegevoegd ⭐" : "Favoriet verwijderd");
   };
 
-  // ✅ Done toggle
+  // ✅ Done toggle — optimistic update, syncs both tabs
   const done = document.createElement("button");
-  done.className = "iconBtn" + (idea.done ? " is-done" : "");
-  done.title     = idea.done ? "Markeer als nog te doen" : "Markeer als gedaan";
-  done.innerText = idea.done ? "✅" : "☑️";
+  done.className = "iconBtn done-btn" + (idea.done ? " is-done" : "");
+  done.title     = idea.done ? "Zet terug naar ideeën" : "Markeer als gedaan";
+  done.innerHTML = idea.done
+    ? `<span class="done-icon-wrap done-active"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#2a7a50" stroke-width="1.5" fill="rgba(60,180,100,0.15)"/><path d="M4.5 8.5l2.5 2.5 4.5-5" stroke="#2a7a50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`
+    : `<span class="done-icon-wrap"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#aaa" stroke-width="1.5" fill="none"/><path d="M4.5 8.5l2.5 2.5 4.5-5" stroke="#ccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+
   done.onclick   = async () => {
     const newVal = !idea.done;
     const { error } = await supabaseClient.from("date_ideas").update({ done: newVal }).eq("id", idea.id);
     if (error) { showToast("❌ Fout bij opslaan"); return; }
 
+    // Update local state immediately — no full re-fetch
     idea.done = newVal;
     const idx = allIdeas.findIndex(i => i.id === idea.id);
     if (idx !== -1) allIdeas[idx].done = newVal;
 
     showToast(newVal ? "Gemarkeerd als gedaan ✅" : "Terug gezet naar ideeën 💭");
 
+    // Animate out, then re-render whichever view is active
     li.classList.add("removing");
-    setTimeout(() => renderList(), 300);
+    setTimeout(() => {
+      applyFilters();              // refreshes ideas tab + count
+      if (activeTab === "done") renderDoneList(); // refreshes done tab
+      if (doneCount) doneCount.innerText = allIdeas.filter(i => i.done).length;
+    }, 280);
   };
 
   // ✏️ Edit
@@ -474,11 +510,26 @@ document.getElementById("generateBtn").onclick = async () => {
 
   let pool = allIdeas.filter(i => !i.done);
 
-  if (favOnly)            pool = pool.filter(i => i.favorite);
+  if (favOnly) pool = pool.filter(i => i.favorite);
+
+  // OR-logic: an item matches if it satisfies at least one value per active filter group.
+  // Between groups it's still AND (you chose category AND budget constraints separately).
+  // Within each group it's OR (selecting "Buiten" + "Thuis" shows both).
   if (randCats.length)    pool = pool.filter(i => randCats.includes(i.category));
   if (randBudgets.length) pool = pool.filter(i => randBudgets.includes(i.budget));
   if (randLocs.length)    pool = pool.filter(i => randLocs.includes(i.location));
   if (randDurs.length)    pool = pool.filter(i => randDurs.includes(i.duration));
+
+  // OR across ALL active filter groups combined: item matches if it satisfies any selected value
+  const hasAnyFilter = randCats.length || randBudgets.length || randLocs.length || randDurs.length;
+  if (hasAnyFilter) {
+    pool = allIdeas.filter(i => !i.done && (!favOnly || i.favorite)).filter(i =>
+      (randCats.length    && randCats.includes(i.category))  ||
+      (randBudgets.length && randBudgets.includes(i.budget)) ||
+      (randLocs.length    && randLocs.includes(i.location))  ||
+      (randDurs.length    && randDurs.includes(i.duration))
+    );
+  }
 
   if (!allIdeas.length) {
     showToast("Nog geen ideeën! Voeg er eerst wat toe 💭");
