@@ -6,13 +6,12 @@
   <title>C💖B</title>
 
   <link rel="stylesheet" href="style.css"/>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
@@ -21,9 +20,8 @@
 
   <h1>C💖B</h1>
 
-  <!-- ================= RANDOM (BOVENAAN) ================= -->
-  <div class="card">
-
+  <!-- RANDOM -->
+  <div class="card glass">
     <h2>🎲 Random date</h2>
 
     <select id="filterCategory">
@@ -42,23 +40,19 @@
       <option value="Duur">Duur</option>
     </select>
 
-    <button id="generateBtn">🎉 Kies random date</button>
+    <button id="generateBtn">✨ Verras me</button>
 
-    <div id="randomCard" class="card-result hidden">
+    <div id="randomCard" class="result hidden">
       <h3 id="randomTitle"></h3>
       <p id="randomDescription"></p>
     </div>
-
   </div>
 
-  <!-- ================= ADD IDEA (INKLAPBAAR) ================= -->
-  <div class="card">
+  <!-- ADD -->
+  <div class="card glass">
+    <h2 id="toggleAdd">➕ Voeg date toe</h2>
 
-    <h2 id="toggleAdd" class="toggle-header">
-      ➕ Voeg date idee toe <span id="arrowAdd">▼</span>
-    </h2>
-
-    <div id="addContent" class="collapsed">
+    <div id="addContent">
 
       <input id="title" placeholder="Titel"/>
       <input id="description" placeholder="Beschrijving"/>
@@ -79,25 +73,23 @@
         <option value="Duur">Duur</option>
       </select>
 
-      <button id="addBtn">➕ Toevoegen</button>
+      <button id="addBtn">Toevoegen</button>
 
     </div>
   </div>
 
-  <!-- ================= YOUR IDEAS ================= -->
-  <div class="card">
+  <!-- IDEAS -->
+  <div class="card glass">
+    <h2 id="toggleIdeas">💖 Jouw ideeën</h2>
 
-    <h2 id="toggleIdeas" class="toggle-header">
-      💖 Jouw ideeën <span id="arrowIdeas">▼</span>
-    </h2>
-
-    <div id="ideasContent" class="collapsed">
+    <div id="ideasContent">
       <ul id="dateList"></ul>
     </div>
-
   </div>
 
 </div>
+
+<div id="toast"></div>
 
 <script src="script.js"></script>
 </body>
