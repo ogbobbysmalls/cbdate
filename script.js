@@ -124,3 +124,15 @@ filterBudget.addEventListener("change", renderList);
 
 // --- Initial load ---
 renderList();
+
+addBtn.addEventListener("click", async () => {
+  console.log("Klik werkt");
+
+  if (!titleInput.value || !descInput.value) {
+    alert("Vul titel en beschrijving in");
+    return;
+  }
+
+  console.log("Data:", titleInput.value, descInput.value);
+});
+
