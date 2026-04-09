@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>C💖B</title>
 
   <link rel="stylesheet" href="style.css"/>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
@@ -48,11 +43,15 @@
     </div>
   </div>
 
-  <!-- ADD -->
+  <!-- ADD (TOGGLE) -->
   <div class="card glass">
-    <h2 id="toggleAdd">➕ Voeg date toe</h2>
 
-    <div id="addContent">
+    <div class="toggle" id="toggleAdd">
+      <h2>➕ Voeg date toe</h2>
+      <span>▼</span>
+    </div>
+
+    <div id="addBox" class="collapsible">
 
       <input id="title" placeholder="Titel"/>
       <input id="description" placeholder="Beschrijving"/>
@@ -78,13 +77,18 @@
     </div>
   </div>
 
-  <!-- IDEAS -->
+  <!-- IDEAS (TOGGLE) -->
   <div class="card glass">
-    <h2 id="toggleIdeas">💖 Jouw ideeën</h2>
 
-    <div id="ideasContent">
+    <div class="toggle" id="toggleIdeas">
+      <h2>💖 Jouw ideeën</h2>
+      <span>▼</span>
+    </div>
+
+    <div id="ideasBox" class="collapsible">
       <ul id="dateList"></ul>
     </div>
+
   </div>
 
 </div>
