@@ -1,23 +1,76 @@
-body{
-font-family: Arial, sans-serif;
-background:#fff0f6;
-display:flex;
-justify-content:center;
-padding:40px;
-margin:0;
+// --- Supabase setup ---
+const SUPABASE_URL = 'JOUW_SUPABASE_URL'
+const SUPABASE_ANON_KEY = 'JOUW_SUPABASE_ANON_KEY'
+
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// --- Elementen ---
+const titleInput = document.getElementById("title");
+const descInput = document.getElementById("description");
+const categoryInput = document.getElementById("category");
+const budgetInput = document.getElementById("budget");
+const addBtn = document.getElementById("addBtn");
+const dateList = document.getElementById("dateList");
+const generateBtn = document.getElementById("generateBtn");
+const randomCard = document.getElementById("randomCard");
+const randomTitle = document.getElementById("randomTitle");
+const randomDescription = document.getElementById("randomDescription");
+const filterCategory = document.getElementById("filterCategory");
+const filterBudget = document.getElementById("filterBudget");
+
+// --- Functies ---
+async function fetchIdeas() {
+  const { data, error } = await supabase.from('date_ideas').select('*').order('created_at',{ascending:false});
+  return data || [];
 }
-.container{
-max-width:500px;
-background:white;
-padding:30px;
-border-radius:20px;
-box-shadow:0 10px 30px rgba(0,0,0,0.1);
+
+async function renderList(){
+  const ideas = await fetchIdeas();
+  dateList.innerHTML="";
+  ideas.forEach((idea)=>{
+    if(filterCategory.value && idea.category!==filterCategory.value) return;
+    if(filterBudget.value && idea.budget!==filterBudget.value) return;
+    const li=document.createElement("li");
+    li.className="date-item";
+    li.innerHTML=`<span>${idea.title} (${idea.category}, ${idea.budget})</span>`;
+    const delBtn=document.createElement("button");
+    delBtn.innerText="Verwijder";
+    delBtn.onclick=async()=>{
+      await supabase.from('date_ideas').delete().eq('id',idea.id);
+      renderList();
+    };
+    li.appendChild(delBtn);
+    dateList.appendChild(li);
+  });
 }
-h1,h2{color:#ff4d8d;text-align:center;}
-input,select{padding:8px;margin:5px;width:100%;box-sizing:border-box;}
-button{padding:10px 20px;margin-top:10px;background:#ff4d8d;color:white;border:none;border-radius:10px;cursor:pointer;transition:0.3s;}
-button:hover{background:#ff2f7a;transform:scale(1.05);}
-.hidden{display:none;}
-#randomCard,.date-item{margin-top:20px;padding:15px;background:#fff0f6;border-radius:12px;box-shadow:0 5px 15px rgba(0,0,0,0.1);}
-.date-item{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
-.date-item button{background:#ff2f7a;padding:5px 10px;}
+
+addBtn.addEventListener("click", async ()=>{
+  if(!titleInput.value || !descInput.value){alert("Vul titel en beschrijving in");return;}
+  await supabase.from('date_ideas').insert([{
+    title:titleInput.value,
+    description:description.value,
+    category:categoryInput.value,
+    budget:budgetInput.value
+  }]);
+  titleInput.value=""; descInput.value=""; categoryInput.value=""; budgetInput.value="";
+  renderList();
+});
+
+// Random picker
+generateBtn.addEventListener("click", async ()=>{
+  const ideas = await fetchIdeas();
+  let filtered = ideas;
+  if(filterCategory.value) filtered=filtered.filter(i=>i.category===filterCategory.value);
+  if(filterBudget.value) filtered=filtered.filter(i=>i.budget===filterBudget.value);
+  if(filtered.length===0){alert("Geen ideeën gevonden voor deze filters!");return;}
+  const rand = filtered[Math.floor(Math.random()*filtered.length)];
+  randomTitle.innerText=rand.title;
+  randomDescription.innerText=rand.description;
+  randomCard.classList.remove("hidden");
+});
+
+filterCategory.addEventListener("change", renderList);
+filterBudget.addEventListener("change", renderList);
+
+// Initial render
+renderList();
