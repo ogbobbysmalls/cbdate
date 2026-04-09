@@ -1,16 +1,11 @@
-/* FULL HEIGHT FIX (BELANGRIJK VOOR GRADIENT) */
 html, body {
   height: 100%;
 }
 
-/* FONT */
 body {
   margin: 0;
   font-family: "M PLUS Rounded 1c", sans-serif;
-
-  /* 🎨 NIEUWE GRADIENT */
   background: linear-gradient(180deg, #eec8cf, #ce8a97);
-
   min-height: 100vh;
   color: #1c1c1e;
 }
@@ -23,10 +18,9 @@ body {
 
 h1 {
   text-align: center;
-  font-weight: 700;
 }
 
-/* GLASS CARD */
+/* glass */
 .card {
   margin-bottom: 18px;
   padding: 18px;
@@ -59,31 +53,21 @@ button {
   background: #007aff;
   color: white;
   font-weight: 600;
-  cursor: pointer;
 }
 
-/* result */
-.result {
-  margin-top: 12px;
-  padding: 14px;
-  border-radius: 16px;
-  background: rgba(0,122,255,0.08);
-}
-
-/* TOGGLE */
+/* toggle */
 .toggle {
   cursor: pointer;
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
-/* COLLAPSE FIX */
+/* collapse */
 .collapsible {
-  overflow: hidden;
   max-height: 0;
+  overflow: hidden;
   opacity: 0;
-  transition: all 0.35s ease;
+  transition: 0.35s ease;
 }
 
 .collapsible.open {
@@ -91,7 +75,7 @@ button {
   opacity: 1;
 }
 
-/* LIST */
+/* list */
 #dateList {
   list-style: none;
   padding: 0;
@@ -100,13 +84,23 @@ button {
 .date-item {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 10px;
   margin-top: 8px;
   border-radius: 12px;
   background: rgba(255,255,255,0.7);
 }
 
-/* TOAST */
+/* delete button */
+.deleteBtn {
+  background: #ff3b30;
+  padding: 6px 10px;
+  border-radius: 8px;
+  width: auto;
+  font-size: 12px;
+}
+
+/* toast */
 #toast {
   position: fixed;
   bottom: 20px;
