@@ -16,34 +16,9 @@
 
   <h1>C💖B</h1>
 
-  <!-- 🔹 ADD IDEA -->
+  <!-- ================= RANDOM (BOVENAAN) ================= -->
   <div class="card">
-    <h2>Voeg een date idee toe</h2>
 
-    <input id="title" placeholder="Titel"/>
-    <input id="description" placeholder="Beschrijving"/>
-
-    <select id="category">
-      <option value="">Categorie</option>
-      <option value="Buiten">Buiten</option>
-      <option value="Thuis">Thuis</option>
-      <option value="Eten">Eten</option>
-      <option value="Avontuur">Avontuur</option>
-    </select>
-
-    <select id="budget">
-      <option value="">Budget</option>
-      <option value="Gratis">Gratis</option>
-      <option value="Goedkoop">Goedkoop</option>
-      <option value="Gemiddeld">Gemiddeld</option>
-      <option value="Duur">Duur</option>
-    </select>
-
-    <button id="addBtn">➕ Toevoegen</button>
-  </div>
-
-  <!-- 🔹 RANDOM -->
-  <div class="card">
     <h2>🎲 Random date</h2>
 
     <select id="filterCategory">
@@ -68,13 +43,47 @@
       <h3 id="randomTitle"></h3>
       <p id="randomDescription"></p>
     </div>
+
   </div>
 
-  <!-- 🔹 YOUR IDEAS -->
+  <!-- ================= ADD IDEA (INKLAPBAAR) ================= -->
+  <div class="card">
+
+    <h2 id="toggleAdd" class="toggle-header">
+      ➕ Voeg date idee toe <span id="arrowAdd">▼</span>
+    </h2>
+
+    <div id="addContent" class="collapsed">
+
+      <input id="title" placeholder="Titel"/>
+      <input id="description" placeholder="Beschrijving"/>
+
+      <select id="category">
+        <option value="">Categorie</option>
+        <option value="Buiten">Buiten</option>
+        <option value="Thuis">Thuis</option>
+        <option value="Eten">Eten</option>
+        <option value="Avontuur">Avontuur</option>
+      </select>
+
+      <select id="budget">
+        <option value="">Budget</option>
+        <option value="Gratis">Gratis</option>
+        <option value="Goedkoop">Goedkoop</option>
+        <option value="Gemiddeld">Gemiddeld</option>
+        <option value="Duur">Duur</option>
+      </select>
+
+      <button id="addBtn">➕ Toevoegen</button>
+
+    </div>
+  </div>
+
+  <!-- ================= YOUR IDEAS ================= -->
   <div class="card">
 
     <h2 id="toggleIdeas" class="toggle-header">
-      Jouw ideeën <span id="arrow">▼</span>
+      💖 Jouw ideeën <span id="arrowIdeas">▼</span>
     </h2>
 
     <div id="ideasContent" class="collapsed">
