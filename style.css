@@ -20,6 +20,17 @@ h1 {
   margin-bottom: 20px;
 }
 
+/* <weight>: Use a value from 100 to 400
+<uniquifier>: Use a unique and descriptive class name */
+
+.playwrite-ie-h1 {
+  font-family: "Playwrite IE", cursive;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+}
+
+
 /* =====================
    CARDS (ALLE BLOKKEN)
 ===================== */
