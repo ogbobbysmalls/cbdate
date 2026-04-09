@@ -275,19 +275,29 @@ addBtn.onclick = async () => {
 
 // ===== RANDOM =====
 document.getElementById("generateBtn").onclick = async () => {
-  const favOnly = favOnlyCheck.checked;
-  let pool      = allIdeas;
+  const favOnly  = favOnlyCheck.checked;
+  const filterCat    = document.getElementById("randomFilterCategory").value;
+  const filterBudget = document.getElementById("randomFilterBudget").value;
+
+  let pool = allIdeas;
 
   if (favOnly) {
-    pool = allIdeas.filter(i => i.favorite);
-    if (!pool.length) {
-      showToast("Geen favorieten gevonden ⭐");
-      return;
-    }
+    pool = pool.filter(i => i.favorite);
+  }
+  if (filterCat) {
+    pool = pool.filter(i => i.category === filterCat);
+  }
+  if (filterBudget) {
+    pool = pool.filter(i => i.budget === filterBudget);
+  }
+
+  if (!allIdeas.length) {
+    showToast("Nog geen ideeën! Voeg er eerst wat toe 💭");
+    return;
   }
 
   if (!pool.length) {
-    showToast("Nog geen ideeën! Voeg er eerst wat toe 💭");
+    showToast("Geen ideeën gevonden met deze filters ✨");
     return;
   }
 
