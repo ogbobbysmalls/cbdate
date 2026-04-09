@@ -9,22 +9,18 @@ const descInput = document.getElementById("description");
 const categoryInput = document.getElementById("category");
 const budgetInput = document.getElementById("budget");
 
-const addBtn = document.getElementById("addBtn");
-const generateBtn = document.getElementById("generateBtn");
-
 const list = document.getElementById("dateList");
-
-// UI
 const toast = document.getElementById("toast");
-const addBox = document.getElementById("addBox");
-const ideasBox = document.getElementById("ideasBox");
 
+let editId = null;
+
+// toggles
 document.getElementById("toggleAdd").onclick = () => {
-  addBox.classList.toggle("open");
+  document.getElementById("addBox").classList.toggle("open");
 };
 
 document.getElementById("toggleIdeas").onclick = () => {
-  ideasBox.classList.toggle("open");
+  document.getElementById("ideasBox").classList.toggle("open");
 };
 
 // toast
@@ -34,7 +30,7 @@ function showToast(msg) {
   setTimeout(() => toast.classList.remove("show"), 2000);
 }
 
-// 🔥 RENDER IDEAS (FIX)
+// 🔥 RENDER (FIXED - NO BUGS)
 async function renderList() {
   const { data } = await supabaseClient
     .from("date_ideas")
@@ -43,7 +39,7 @@ async function renderList() {
 
   list.innerHTML = "";
 
-  if (!data || data.length === 0) {
+  if (!data?.length) {
     list.innerHTML = "<p>Geen ideeën 💭</p>";
     return;
   }
@@ -54,59 +50,93 @@ async function renderList() {
 
     li.innerHTML = `
       <div>
-        <strong>${idea.title}</strong><br/>
+        <strong>${idea.title}</strong> ${idea.favorite ? "⭐" : ""}<br/>
         <small>${idea.description}</small>
       </div>
     `;
 
-    const del = document.createElement("button");
-    del.innerText = "🗑";
-    del.className = "deleteBtn";
+    const actions = document.createElement("div");
+    actions.className = "actions";
 
-    del.onclick = async () => {
+    // ⭐ favorite
+    const fav = document.createElement("button");
+    fav.className = "iconBtn";
+    fav.innerText = "⭐";
+    fav.onclick = async () => {
       await supabaseClient
         .from("date_ideas")
-        .delete()
+        .update({ favorite: !idea.favorite })
         .eq("id", idea.id);
-
-      showToast("Verwijderd 🗑");
       renderList();
     };
 
-    li.appendChild(del);
+    // ✏️ edit
+    const edit = document.createElement("button");
+    edit.className = "iconBtn";
+    edit.innerText = "✏️";
+    edit.onclick = () => {
+      titleInput.value = idea.title;
+      descInput.value = idea.description;
+      categoryInput.value = idea.category;
+      budgetInput.value = idea.budget;
+      editId = idea.id;
+      showToast("Bewerken ✏️");
+    };
+
+    // 🗑 delete
+    const del = document.createElement("button");
+    del.className = "iconBtn";
+    del.innerText = "🗑";
+    del.onclick = async () => {
+      await supabaseClient.from("date_ideas").delete().eq("id", idea.id);
+      renderList();
+    };
+
+    actions.appendChild(fav);
+    actions.appendChild(edit);
+    actions.appendChild(del);
+
+    li.appendChild(actions);
     list.appendChild(li);
   });
 }
 
-// ➕ ADD
-addBtn.addEventListener("click", async () => {
-  await supabaseClient.from("date_ideas").insert([{
+// ➕ save / edit
+document.getElementById("addBtn").onclick = async () => {
+  const payload = {
     title: titleInput.value,
     description: descInput.value,
     category: categoryInput.value,
     budget: budgetInput.value
-  }]);
+  };
+
+  if (editId) {
+    await supabaseClient.from("date_ideas").update(payload).eq("id", editId);
+    editId = null;
+    showToast("Aangepast ✏️");
+  } else {
+    await supabaseClient.from("date_ideas").insert([payload]);
+    showToast("Toegevoegd 💖");
+  }
 
   titleInput.value = "";
   descInput.value = "";
 
-  showToast("Toegevoegd 💖");
   renderList();
-});
+};
 
-// 🎲 RANDOM
-generateBtn.addEventListener("click", async () => {
+// 🎲 random IN CARD (NO POPUP)
+document.getElementById("generateBtn").onclick = async () => {
   const { data } = await supabaseClient.from("date_ideas").select("*");
 
-  if (!data || data.length === 0) return;
+  if (!data?.length) return;
 
   const rand = data[Math.floor(Math.random() * data.length)];
 
-  // 🔥 SHOW IN CARD INSTEAD OF POPUP
   document.getElementById("randomTitle").innerText = rand.title;
   document.getElementById("randomDescription").innerText = rand.description;
 
   document.getElementById("randomCard").classList.remove("hidden");
-});
+};
 
 renderList();
