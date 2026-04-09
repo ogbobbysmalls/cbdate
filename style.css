@@ -133,3 +133,18 @@ button:hover {
     font-size: 22px;
   }
 }
+
+.hidden { display: none; }
+
+.collapsed {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.35s ease;
+}
+
+.expanded {
+  max-height: 700px;
+  opacity: 1;
+  transition: all 0.35s ease;
+}
