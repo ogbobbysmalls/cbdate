@@ -6,7 +6,7 @@ body {
 }
 
 .container {
-  max-width: 600px;
+  max-width: 650px;
   margin: auto;
 }
 
@@ -16,21 +16,24 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* Card design */
+/* ⭐ Elke sectie echt apart */
 .card {
   background: white;
   padding: 20px;
-  border-radius: 15px;
-  margin-bottom: 20px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  border-radius: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  border: 1px solid rgba(255, 77, 141, 0.1);
 }
 
+/* inputs */
 input, select {
   width: 100%;
   padding: 10px;
-  margin: 5px 0;
+  margin: 6px 0;
   border-radius: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
+  outline: none;
 }
 
 button {
@@ -47,29 +50,44 @@ button:hover {
   background: #ff2f7a;
 }
 
-/* Random card result */
+/* random result */
 .card-result {
   margin-top: 10px;
   padding: 15px;
   background: #ffe6f0;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
-/* Jouw ideeën collapsible */
+/* ⭐ collapsible animatie (belangrijk!) */
 .collapsed {
-  display: none;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding: 0;
+  transition: all 0.3s ease;
 }
 
+.expanded {
+  max-height: 1000px;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+/* header klikbaar */
 .toggle-header {
   cursor: pointer;
   user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
+/* list items */
 .date-item {
   display: flex;
   justify-content: space-between;
   padding: 10px;
   background: #ffe6f0;
-  margin-bottom: 5px;
+  margin-top: 8px;
   border-radius: 10px;
 }
