@@ -98,9 +98,15 @@ addBtn.addEventListener("click", async () => {
 generateBtn.addEventListener("click", async () => {
   const { data } = await supabaseClient.from("date_ideas").select("*");
 
+  if (!data || data.length === 0) return;
+
   const rand = data[Math.floor(Math.random() * data.length)];
 
-  alert(rand.title + "\n\n" + rand.description);
+  // 🔥 SHOW IN CARD INSTEAD OF POPUP
+  document.getElementById("randomTitle").innerText = rand.title;
+  document.getElementById("randomDescription").innerText = rand.description;
+
+  document.getElementById("randomCard").classList.remove("hidden");
 });
 
 renderList();
