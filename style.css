@@ -709,6 +709,163 @@ input::placeholder {
   display: none !important;
 }
 
+/* ===== TAB BAR ===== */
+.tab-bar {
+  display: flex;
+  gap: 8px;
+  margin: 14px 0 0;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(200,80,120,0.2);
+  background: rgba(255,255,255,0.4);
+  color: rgba(45,26,34,0.55);
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.tab-btn:hover {
+  background: rgba(255,255,255,0.65);
+  color: #2d1a22;
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, #e8809a, #c9567a);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(180,60,90,0.3);
+}
+
+/* ===== DONE TAB ===== */
+.done-header {
+  padding: 10px 0 4px;
+}
+
+.done-subtitle {
+  font-weight: 700;
+  font-size: 13px;
+  color: rgba(45,26,34,0.55);
+  margin: 0;
+  text-align: center;
+}
+
+.done-item {
+  opacity: 0.75;
+}
+
+.done-item .item-content strong {
+  text-decoration: line-through;
+  color: rgba(45,26,34,0.5);
+}
+
+.done-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(60,180,100,0.15);
+  color: #2a7a50;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 50px;
+}
+
+/* ===== VISUAL FEEDBACK: CHECKED DROPDOWN OPTIONS ===== */
+.drop-option:has(input:checked) {
+  background: rgba(200,80,120,0.1);
+  color: #a0405a;
+}
+
+.drop-option input[type="checkbox"]:checked + * {
+  color: #a0405a;
+}
+
+.drop-option {
+  position: relative;
+}
+
+.drop-option::after {
+  content: '';
+  display: none;
+}
+
+/* Checked checkmark indicator */
+.drop-option:has(input:checked)::before {
+  content: '✓';
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  font-weight: 900;
+  color: #c9567a;
+}
+
+/* ===== MULTI-SELECT BUTTON ACTIVE STATE ===== */
+.multi-select-btn.has-selection {
+  border-color: rgba(200,80,120,0.55);
+  background: rgba(200,80,120,0.08);
+  color: #a0405a;
+  box-shadow: 0 0 0 3px rgba(200,80,120,0.12);
+}
+
+/* ===== HIDE DONE PILL ===== */
+.hide-done-pill {
+  align-self: flex-start;
+}
+
+/* ===== Z-INDEX FIX ===== */
+.card {
+  position: relative;
+}
+
+.multi-select-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.multi-select-wrap:focus-within,
+.multi-select-wrap:has(.multi-select-drop:not(.hidden)) {
+  z-index: 100;
+}
+
+.multi-select-drop {
+  z-index: 200;
+}
+
+/* Ensure cards don't clip dropdowns */
+.card {
+  overflow: visible;
+}
+
+/* ===== FAVORITE TOGGLE FEEDBACK ===== */
+.iconBtn.is-fav {
+  background: rgba(255, 220, 230, 0.8);
+}
+
+.iconBtn.is-fav:hover {
+  background: rgba(255, 200, 215, 0.95);
+}
+
+/* ===== DONE BUTTON FEEDBACK ===== */
+.iconBtn.is-done {
+  background: rgba(180, 240, 200, 0.7);
+}
+
+.iconBtn.is-done:hover {
+  background: rgba(150, 220, 170, 0.95);
+}
+
 /* ===== ANIMATIONS ===== */
 @keyframes fadeDown {
   from { opacity: 0; transform: translateY(-20px); }
