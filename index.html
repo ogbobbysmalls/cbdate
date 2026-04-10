@@ -33,6 +33,10 @@
         <input type="checkbox" id="favOnlyCheck"/>
         <span>⭐ Alleen favorieten</span>
       </label>
+      <label class="toggle-pill" style="margin-left:8px">
+        <input type="checkbox" id="hideDoneRandom"/>
+        <span>🙈 Verberg gedaan</span>
+      </label>
     </div>
 
     <div class="random-filters">
@@ -190,10 +194,16 @@
       <div id="tab-ideas">
       <div class="filter-bar">
         <input id="searchInput" placeholder="🔍 Zoeken..." class="search-input"/>
-        <label class="toggle-pill hide-done-pill">
-          <input type="checkbox" id="hideDoneCheck"/>
-          <span>🙈 Verberg gedaan</span>
-        </label>
+        <div class="pill-row">
+          <label class="toggle-pill">
+            <input type="checkbox" id="favOnlyIdeas"/>
+            <span>⭐ Alleen favorieten</span>
+          </label>
+          <label class="toggle-pill hide-done-pill">
+            <input type="checkbox" id="hideDoneCheck"/>
+            <span>🙈 Verberg gedaan</span>
+          </label>
+        </div>
 
         <div class="filter-row">
           <!-- Multi-select categorie -->
